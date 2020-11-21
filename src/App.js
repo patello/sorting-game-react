@@ -1,55 +1,109 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
 
-/**
- * Uses Tailwind CSS for styling
- * Tailwind file is imported in App.css
- */
+import './App.css';
 
-export default function App() {
-  return (
-    <div className="app min-h-screen text-blue-200 flex items-center flex-col p-20">
-      <div className="mb-10 grid grid-cols-4 grid-rows-2 w-1/2 mx-auto">
-        <img className="opacity-25" src={logo} alt="React Logo" width="300" />
-        <img
-          className="col-span-2 row-span-3 animate-spin m-auto"
-          style={{ animationDuration: "30s" }}
-          src={logo}
-          alt="React Logo"
-          width="300"
-        />
-        <img className="opacity-25" src={logo} alt="React Logo" width="300" />
-        <img className="opacity-25" src={logo} alt="React Logo" width="300" />
-        <img className="opacity-25" src={logo} alt="React Logo" width="300" />
-      </div>
-
-      <h1 className="text-2xl lg:text-5xl mb-10 text-right">
-        Test React App for the Sorting Game{" "}
-        <span className="block text-lg text-blue-400">on DigitalOcean</span>
-      </h1>
-
-      <div className="grid grid-cols-2 grid-rows-2 gap-4">
-        <Button
-          text="DigitalOcean Docs"
-          url="https://www.digitalocean.com/docs/app-platform"
-        />
-        <Button
-          text="DigitalOcean Dashboard"
-          url="https://cloud.digitalocean.com/apps"
-        />
-      </div>
+var GridItem = (props) => {
+  const displayValue = (props.value > 0) ? props.value : "[]";
+  const dragOver = (ev) => {
+    ev.preventDefault();
+  }
+  const drop = (ev) => {
+    ev.preventDefault();
+    props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
+  }
+  return(
+    <div 
+      class="item" 
+      onDrop={drop} 
+      onDragOver={dragOver}>
+      {displayValue}
     </div>
   );
 }
 
-function Button({ className, text, url = "#" }) {
+var Grid = (props) => {
+
+  const items = []
+
+  for (const [index, value] of props.values.entries()) {
+    items.push(<GridItem key={index} value={value} index={index} dropFunction={props.dropFunction}/>)
+  }
   return (
-    <a
-      href={url}
-      className={`${className} py-3 px-6 bg-purple-400 hover:bg-purple-300 text-purple-800 hover:text-purple-900 block rounded text-center shadow flex items-center justify-center leading-snug text-xs transition ease-in duration-150`}
-    >
-      {text}
-    </a>
+      <div class="grid">{items}</div>
   );
 }
+
+var PieceItem = (props) => {
+  const displayValue = (props.value > 0) ? props.value : "";
+  const draggable = props.value > 0
+  const drag = function(ev){
+    ev.dataTransfer.setData("value", props.value);
+    ev.dataTransfer.setData("index", props.index);
+  }
+  return(
+    <div class="item" draggable={draggable} onDragStart={drag}>{displayValue}</div>
+  );  
+}
+
+var PieceRow = (props) => {
+  const items = []
+
+  for (const [index, value] of props.values.entries()) {
+    items.push(<PieceItem key={index} value={value} index={index}/>)
+  }
+  return (
+      <div class="grid">{items}</div>
+  );
+}
+
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.movePiece = this.movePiece.bind(this);
+    this.state = {
+      round : 1,
+      pieces : [5,1,2,4,10,19,20,40,21,22,31,26,7,5,4,3],
+      gridValues : new Array(16).fill(0),
+      pieceValues : [5,1,2,4]
+    }
+  }
+
+  movePiece(gridIndex,pieceValue,pieceIndex) {
+    var newRound = this.state.round;
+    var newGrid = this.state.gridValues;
+    var newPieceRow = this.state.pieceValues;
+
+    newGrid[gridIndex] = pieceValue;
+    newPieceRow[pieceIndex] = 0;
+    if (newGrid.every(item => item !== 0)){
+      console.log("The end!")
+    } 
+    else {
+      if (newPieceRow.every(item => item === 0)) {
+        newRound = newRound + 1;
+        newPieceRow = this.state.pieces.slice((newRound-1)*4,4+(newRound-1)*4)
+      }
+    }
+    this.setState ({
+      round : newRound,
+      gridValues : newGrid,
+      pieceValues : newPieceRow
+    })
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <Grid values={this.state.gridValues} dropFunction={this.movePiece}/>
+          <br/>
+          <PieceRow values={this.state.pieceValues}/>
+        </header>
+      </div>
+    );
+  }
+}
+
+
+
+export default App;
