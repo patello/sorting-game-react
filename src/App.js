@@ -11,14 +11,17 @@ var GridItem = (props) => {
     ev.preventDefault();
     props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
   }
-  return(
-    <div 
-      class="item" 
-      onDrop={drop} 
-      onDragOver={dragOver}>
-      {displayValue}
-    </div>
-  );
+  if (props.value === 0){
+    return(
+      <div 
+        class="item" 
+        onDrop={drop} 
+        onDragOver={dragOver}>
+        {displayValue}
+      </div>
+    );
+  }
+  return(<div class="item">{displayValue}</div>);
 }
 
 var Grid = (props) => {
@@ -60,12 +63,28 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.movePiece = this.movePiece.bind(this);
+    const generatedPieces=this.generatePieces();
     this.state = {
       round : 1,
-      pieces : [5,1,2,4,10,19,20,40,21,22,31,26,7,5,4,3],
+      pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
-      pieceValues : [5,1,2,4]
+      pieceValues : generatedPieces.slice(0,4)
     }
+  }
+
+  generatePieces(){
+    var pieceList = []
+    var i;
+    for(i=0; i < 40; i++)
+    {
+      var newPiece = Math.floor(Math.random() * 40) + 1;
+      while(pieceList.includes(newPiece))
+      {
+        newPiece = Math.floor(Math.random() * 40) + 1; 
+      }
+      pieceList.push(newPiece)
+    }
+    return(pieceList)
   }
 
   movePiece(gridIndex,pieceValue,pieceIndex) {
