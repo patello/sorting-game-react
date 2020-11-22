@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 
 var GridItem = (props) => {
-  const displayValue = (props.value > 0) ? props.value : "[]";
+  const displayValue = (props.value > 0) ? props.value : "";
   const dragOver = (ev) => {
     ev.preventDefault();
   }
@@ -14,14 +14,13 @@ var GridItem = (props) => {
   if (props.value === 0){
     return(
       <div 
-        class="item" 
         onDrop={drop} 
         onDragOver={dragOver}>
         {displayValue}
       </div>
     );
   }
-  return(<div class="item">{displayValue}</div>);
+  return(<div>{displayValue}</div>);
 }
 
 var Grid = (props) => {
@@ -38,13 +37,14 @@ var Grid = (props) => {
 
 var PieceItem = (props) => {
   const displayValue = (props.value > 0) ? props.value : "";
+  const elementClass = (props.value > 0) ? "activePiece" : "inactivePiece";
   const draggable = props.value > 0
   const drag = function(ev){
     ev.dataTransfer.setData("value", props.value);
     ev.dataTransfer.setData("index", props.index);
   }
   return(
-    <div class="item" draggable={draggable} onDragStart={drag}>{displayValue}</div>
+    <div class={elementClass} draggable={draggable} onDragStart={drag}>{displayValue}</div>
   );  
 }
 
@@ -55,7 +55,7 @@ var PieceRow = (props) => {
     items.push(<PieceItem key={index} value={value} index={index}/>)
   }
   return (
-      <div class="grid">{items}</div>
+      <div class="grid pieceGrid">{items}</div>
   );
 }
 
