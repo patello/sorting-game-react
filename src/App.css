@@ -56,8 +56,14 @@
   text-align: center;
   background-color: whitesmoke;
   color: black;
+  /*Makes it so the border is placed on the inside*/
+  box-sizing: border-box;
 }
 
 .activePiece:hover {
   background-color: lightblue;
+}
+
+.droppableItem:hover {
+  border: 2px solid lightcoral;
 }
