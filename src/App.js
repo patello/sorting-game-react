@@ -69,8 +69,10 @@ var PieceRow = (props) => {
 var ResultFields = (props) => {
   const items = [];
   const directionClass = (props.direction==="horizontal") ? "horizontalResultsField" : "verticalResultsField";
-  
-  for (const [index, value] of props.values.entries()) {
+  const symbols = props.values.map(val => {
+    return val ? "✓" : "X"
+  })
+  for (const [index, value] of symbols.entries()) {
     items.push(<div index={index}>{value}</div>)
   }
 
@@ -146,8 +148,8 @@ class App extends React.Component{
         <header className="App-header">
           <grid class="appGrid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-            <ResultFields values={["X","✓","X","X"]} direction="vertical"/>
-            <ResultFields values={["X","✓","X","X"]} direction="horizontal"/>
+            <ResultFields values={[false,false,true,true]} direction="vertical"/>
+            <ResultFields values={[true,false,true,false]} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <div/>
