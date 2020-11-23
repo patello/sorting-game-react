@@ -92,7 +92,8 @@ class App extends React.Component{
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
       pieceValues : generatedPieces.slice(0,4),
-      dragging : false
+      dragging : false,
+      results : new Array(8).fill(false),
     }
   }
 
@@ -124,10 +125,30 @@ class App extends React.Component{
     var newGrid = this.state.gridValues;
     var newPieceRow = this.state.pieceValues;
 
-    newGrid[gridIndex] = pieceValue;
+    newGrid[gridIndex] = parseInt(pieceValue);
     newPieceRow[pieceIndex] = 0;
     if (newGrid.every(item => item !== 0)){
-      console.log("The end!")
+      var newResults = new Array(8).fill(true);
+      var i, j, lastValX, lastValY;
+      for(i=0; i < 4; i++)
+      {
+        lastValX = 0;
+        lastValY = 0;
+        for(j=0; j < 4; j++)
+        {
+          if(this.state.gridValues[i*4+j]<lastValX){
+            newResults[i]=false;
+          }
+          if(this.state.gridValues[j*4+i]<lastValY){
+            newResults[4+i]=false;
+          }
+          lastValX=this.state.gridValues[i*4+j]
+          lastValY=this.state.gridValues[j*4+i]
+        }
+      }
+      this.setState({
+        results:newResults
+      });
     } 
     else {
       if (newPieceRow.every(item => item === 0)) {
@@ -148,8 +169,8 @@ class App extends React.Component{
         <header className="App-header">
           <grid class="appGrid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-            <ResultFields values={[false,false,true,true]} direction="vertical"/>
-            <ResultFields values={[true,false,true,false]} direction="horizontal"/>
+            <ResultFields values={this.state.results.slice(0,4)} direction="vertical"/>
+            <ResultFields values={this.state.results.slice(4,8)} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <div/>
