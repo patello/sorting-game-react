@@ -37,6 +37,11 @@
   }
 }
 
+.appGrid{
+  display:grid;
+  grid-template-columns: auto auto;
+}
+
 .grid{
   display: grid;
   grid-gap: 30px;
@@ -66,4 +71,24 @@
 
 .droppableItem:hover {
   border: 2px solid lightcoral;
+}
+
+.resultsField{
+  display: grid;
+  grid-gap: 30px;
+}
+
+.resultsField>div{
+  width:50px;
+  height:50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.horizontalResultsField{
+  grid-template-columns: auto auto auto auto;
+}
+
+.verticalResultsField{
+  grid-template-columns: auto;
 }

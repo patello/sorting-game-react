@@ -66,6 +66,19 @@ var PieceRow = (props) => {
   );
 }
 
+var ResultFields = (props) => {
+  const items = [];
+  const directionClass = (props.direction==="horizontal") ? "horizontalResultsField" : "verticalResultsField";
+  
+  for (const [index, value] of props.values.entries()) {
+    items.push(<div index={index}>{value}</div>)
+  }
+
+  return(
+    <grid class={"resultsField "+directionClass}>{items}</grid>
+  )
+}
+
 class App extends React.Component{
   constructor(props){
     super(props);
@@ -131,9 +144,14 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-          <br/>
-          <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
+          <grid class="appGrid">
+            <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
+            <ResultFields values={["X","✓","X","X"]} direction="vertical"/>
+            <ResultFields values={["X","✓","X","X"]} direction="horizontal"/>
+            <div/>
+            <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
+            <div/>
+          </grid>
         </header>
       </div>
     );
