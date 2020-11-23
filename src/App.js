@@ -4,6 +4,7 @@ import './App.css';
 
 var GridItem = (props) => {
   const displayValue = (props.value > 0) ? props.value : "";
+  //Class doesn't seem to actually work in any browser that I've tried. :hover doesn't fire when you are dragging.
   const droppableClass = ((props.value === 0) && (props.dragging)) ? "droppableItem" : "";
   const dragOver = (ev) => {
     ev.preventDefault();
@@ -44,7 +45,7 @@ var PieceItem = (props) => {
   const drag = function(ev){
     ev.dataTransfer.setData("value", props.value);
     ev.dataTransfer.setData("index", props.index);
-    props.toggleDragging("true");
+    props.toggleDragging(true);
   }
   return(
     <div class={elementClass} draggable={draggable} onDragStart={drag}>{displayValue}</div>
@@ -73,7 +74,7 @@ class App extends React.Component{
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
       pieceValues : generatedPieces.slice(0,4),
-      dragging : "false"
+      dragging : false
     }
   }
 
@@ -120,10 +121,9 @@ class App extends React.Component{
       round : newRound,
       gridValues : newGrid,
       pieceValues : newPieceRow,
-      dragging : "false"
+      dragging : false
     })
   }
-  
   render() {
     return (
       <div className="App">
