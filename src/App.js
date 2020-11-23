@@ -47,8 +47,11 @@ var PieceItem = (props) => {
     ev.dataTransfer.setData("index", props.index);
     props.toggleDragging(true);
   }
+  const dragEnd = function(ev){
+    props.toggleDragging(false);
+  }
   return(
-    <div class={elementClass} draggable={draggable} onDragStart={drag}>{displayValue}</div>
+    <div class={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
   );  
 }
 
