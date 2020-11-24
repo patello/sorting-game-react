@@ -37,15 +37,27 @@
   }
 }
 
+.appGrid>button{
+  width: 80px;
+  height: 50px;
+  font-size: 24px;
+  position: relative;
+  top:5%;
+  text-align: center;
+}
+
 .appGrid{
   display:grid;
   grid-template-columns: auto auto;
+  grid-gap: 0px 15px;
+  align-items: center;
 }
 
 .grid{
   display: grid;
   grid-gap: 30px;
   grid-template-columns: auto auto auto auto;
+  padding: 0px 25px;
 }
 
 .pieceGrid{
@@ -92,4 +104,7 @@
 
 .verticalResultsField{
   grid-template-columns: auto;
+  /*Adjust left so that it has the same distance as the horizontal one*/
+  position: relative;
+  left: -15px;
 }
