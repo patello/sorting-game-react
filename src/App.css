@@ -14,14 +14,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #12232E;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #EEFBFB;
 }
 
 .App-link {
@@ -44,6 +44,11 @@
   position: relative;
   top:5%;
   text-align: center;
+  border: none;
+  background-color: #007CC7;
+  color:#EEFBFB;
+  text-decoration: none;
+  border-radius: 2px;
 }
 
 .appGrid{
@@ -62,7 +67,7 @@
 
 .pieceGrid{
   margin-top:10px;
-  border: 5px solid lightblue;
+  border: 5px solid #007CC7;
   border-radius: 25px;
   padding: 20px;
 }
@@ -72,14 +77,14 @@
   height: 50px;
   line-height: 50px;
   text-align: center;
-  background-color: whitesmoke;
+  background-color: #EEFBFB;
   color: black;
   /*Makes it so the border is placed on the inside*/
   box-sizing: border-box;
 }
 
 .activePiece:hover {
-  background-color: lightblue;
+  background-color: #007CC7;
 }
 
 .droppableItem:hover {
@@ -100,11 +105,12 @@
 
 .horizontalResultsField{
   grid-template-columns: auto auto auto auto;
+  padding: 0px 25px;
 }
 
 .verticalResultsField{
   grid-template-columns: auto;
   /*Adjust left so that it has the same distance as the horizontal one*/
   position: relative;
-  left: -15px;
+  left: -35px;
 }
