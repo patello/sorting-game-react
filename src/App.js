@@ -67,6 +67,7 @@ var PieceRow = (props) => {
 }
 
 var ResultFields = (props) => {
+  const visibility = (props.show) ? "visible":"hidden";
   const items = [];
   const directionClass = (props.direction==="horizontal") ? "horizontalResultsField" : "verticalResultsField";
   const symbols = props.values.map(val => {
@@ -77,7 +78,7 @@ var ResultFields = (props) => {
   }
 
   return(
-    <grid class={"resultsField "+directionClass}>{items}</grid>
+    <grid style={{visibility: visibility}}class={"resultsField "+directionClass}>{items}</grid>
   )
 }
 
@@ -86,6 +87,7 @@ class App extends React.Component{
     super(props);
     this.toggleDragging = this.toggleDragging.bind(this);
     this.movePiece = this.movePiece.bind(this);
+    this.reset = this.reset.bind(this);
     const generatedPieces=this.generatePieces();
     this.state = {
       round : 1,
@@ -94,7 +96,21 @@ class App extends React.Component{
       pieceValues : generatedPieces.slice(0,4),
       dragging : false,
       results : new Array(8).fill(false),
+      done : false,
     }
+  }
+
+  reset(){
+    const generatedPieces=this.generatePieces();
+    this.setState({
+      round : 1,
+      pieces : generatedPieces,
+      gridValues : new Array(16).fill(0),
+      pieceValues : generatedPieces.slice(0,4),
+      dragging : false,
+      results : new Array(8).fill(false),
+      done : false,
+    })
   }
 
   toggleDragging(bDragging){
@@ -147,7 +163,8 @@ class App extends React.Component{
         }
       }
       this.setState({
-        results:newResults
+        results:newResults,
+        done:true
       });
     } 
     else {
@@ -169,11 +186,11 @@ class App extends React.Component{
         <header className="App-header">
           <grid class="appGrid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-            <ResultFields values={this.state.results.slice(0,4)} direction="vertical"/>
-            <ResultFields values={this.state.results.slice(4,8)} direction="horizontal"/>
+            <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
+            <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
-            <div/>
+            <button type="button" onClick={this.reset}>Reset</button>
           </grid>
         </header>
       </div>
