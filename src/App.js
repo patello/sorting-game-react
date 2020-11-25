@@ -2,6 +2,25 @@ import React from 'react';
 
 import './App.css';
 
+function getAIHelp(board,selected_brick,other_bricks){
+  const path = "/api/";
+  const payload = {
+      board: board,
+      selected_brick:selected_brick,
+      other_bricks:other_bricks,
+  };
+  
+  fetch(path,
+  {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify( payload )
+  }).then(response => response.json()).then(data => this.setState({helpAction:data.action,helpPolicy:data.policy}));
+};
+
 var GridItem = (props) => {
   const displayValue = (props.value > 0) ? props.value : "";
   //Class doesn't seem to actually work in any browser that I've tried. :hover doesn't fire when you are dragging.
@@ -45,10 +64,10 @@ var PieceItem = (props) => {
   const drag = function(ev){
     ev.dataTransfer.setData("value", props.value);
     ev.dataTransfer.setData("index", props.index);
-    props.toggleDragging(true);
+    props.toggleDragging(true, props.index);
   }
   const dragEnd = function(ev){
-    props.toggleDragging(false);
+    props.toggleDragging(false, -1);
   }
   return(
     <div class={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
@@ -97,6 +116,8 @@ class App extends React.Component{
       dragging : false,
       results : new Array(8).fill(false),
       done : false,
+      helpPolicy : new Array(16).fill(0),
+      helpAction : 0,
     }
   }
 
@@ -108,17 +129,22 @@ class App extends React.Component{
       gridValues : new Array(16).fill(0),
       pieceValues : generatedPieces.slice(0,4),
       dragging : false,
-      results : new Array(8).fill(false),
       done : false,
     })
   }
 
-  toggleDragging(bDragging){
-    this.setState(
-      {
-        dragging : bDragging
-      }
-    )
+  toggleDragging(bDragging, index){
+    if (bDragging){
+      getAIHelp.call(this,this.state.gridValues,this.state.pieceValues[index],this.state.pieceValues.slice(0,index).concat(this.state.pieceValues.slice(index+1,4)));
+    }
+    else
+    {
+      this.setState({
+        helpPolicy : new Array(16).fill(0),
+        helpAction : 0,
+      });
+    }
+    this.setState({dragging : bDragging})
   }
 
   generatePieces(){
@@ -177,7 +203,9 @@ class App extends React.Component{
       round : newRound,
       gridValues : newGrid,
       pieceValues : newPieceRow,
-      dragging : false
+      dragging : false,
+      helpPolicy : new Array(16).fill(0),
+      helpAction : 0,
     })
   }
   render() {
@@ -192,6 +220,7 @@ class App extends React.Component{
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
           </grid>
+          <div>{this.state.helpAction}</div>
         </header>
       </div>
     );
