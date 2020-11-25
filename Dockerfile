@@ -12,12 +12,14 @@ RUN git clone --branch feature/server https://github.com/patello/sorting-game-re
     git clone --branch feature/ai-helper https://github.com/patello/sorting-game-react.git
 
 WORKDIR /sorting-game-reinforcement-learning/
-RUN pip3 install --no-cache-dir -r requirements.txt
+
+RUN pip3 install --upgrade setuptools && \
+    pip3 install --no-cache-dir -r requirements.txt
 
 WORKDIR /sorting-game-react/
 RUN npm install
 
-EXPOSE 8080
+EXPOSE 3000
 WORKDIR /
 ADD docker-start.sh /
 RUN chmod +x /docker-start.sh
