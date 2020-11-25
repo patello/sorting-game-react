@@ -35,9 +35,11 @@ var GridItem = (props) => {
   if (props.value === 0){
     return(
       <div
+        style={{background:`rgba(${255-255*props.opacity}, ${255-131*props.opacity}, ${255-56*props.opacity}, 1)`}}
         class={droppableClass}
         onDrop={drop} 
-        onDragOver={dragOver}>
+        onDragOver={dragOver}
+      >
         {displayValue}
       </div>
     );
@@ -50,7 +52,7 @@ var Grid = (props) => {
   const items = []
 
   for (const [index, value] of props.values.entries()) {
-    items.push(<GridItem key={index} value={value} index={index} dropFunction={props.dropFunction} dragging={props.dragging}/>)
+    items.push(<GridItem key={index} opacity={props.helpValues[index]} value={value} index={index} dropFunction={props.dropFunction} dragging={props.dragging}/>)
   }
   return (
       <div class="grid">{items}</div>
@@ -213,14 +215,13 @@ class App extends React.Component{
       <div className="App">
         <header className="App-header">
           <grid class="appGrid">
-            <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
+            <Grid values={this.state.gridValues} helpValues={this.state.helpPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
           </grid>
-          <div>{this.state.helpAction}</div>
         </header>
       </div>
     );
