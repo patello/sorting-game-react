@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 RUN git clone --branch feature/server https://github.com/patello/sorting-game-reinforcement-learning.git && \
-    git clone --branch feature/ai-helper https://github.com/patello/sorting-game-react.git
+    git clone --branch bugfix/invalid-host-header https://github.com/patello/sorting-game-react.git
 
 WORKDIR /sorting-game-reinforcement-learning/
 
