@@ -78,7 +78,7 @@ var ResultFields = (props) => {
   }
 
   return(
-    <grid style={{visibility: visibility}}className={"results-field "+directionClass}>{items}</grid>
+    <div style={{visibility: visibility}}className={"results-field "+directionClass}>{items}</div>
   )
 }
 
