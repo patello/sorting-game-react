@@ -37,7 +37,7 @@
   }
 }
 
-.appGrid>button{
+.app-grid>button{
   width: 80px;
   height: 50px;
   font-size: 24px;
@@ -51,7 +51,7 @@
   border-radius: 2px;
 }
 
-.appGrid{
+.app-grid{
   display:grid;
   grid-template-columns: auto auto;
   grid-gap: 0px 15px;
@@ -65,7 +65,7 @@
   padding: 0px 25px;
 }
 
-.pieceGrid{
+.piece-grid{
   margin-top:10px;
   border: 5px solid #007CC7;
   border-radius: 25px;
@@ -83,32 +83,32 @@
   box-sizing: border-box;
 }
 
-.activePiece:hover {
+.active-piece:hover {
   background-color: #007CC7;
 }
 
-.droppableItem:hover {
+.droppable-item:hover {
   border: 2px solid lightcoral;
 }
 
-.resultsField{
+.results-field{
   display: grid;
   grid-gap: 30px;
 }
 
-.resultsField>div{
+.results-field>div{
   width:50px;
   height:50px;
   line-height: 50px;
   text-align: center;
 }
 
-.horizontalResultsField{
+.results-field--horizontal{
   grid-template-columns: auto auto auto auto;
   padding: 0px 25px;
 }
 
-.verticalResultsField{
+.results-field--vertical{
   grid-template-columns: auto;
   /*Adjust left so that it has the same distance as the horizontal one*/
   position: relative;
