@@ -16,7 +16,7 @@ var GridItem = (props) => {
   if (props.value === 0){
     return(
       <div
-        class={droppableClass}
+        className={droppableClass}
         onDrop={drop} 
         onDragOver={dragOver}>
         {displayValue}
@@ -34,7 +34,7 @@ var Grid = (props) => {
     items.push(<GridItem key={index} value={value} index={index} dropFunction={props.dropFunction} dragging={props.dragging}/>)
   }
   return (
-      <div class="grid">{items}</div>
+      <div className="grid">{items}</div>
   );
 }
 
@@ -51,7 +51,7 @@ var PieceItem = (props) => {
     props.toggleDragging(false);
   }
   return(
-    <div class={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
+    <div className={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
   );  
 }
 
@@ -62,7 +62,7 @@ var PieceRow = (props) => {
     items.push(<PieceItem key={index} value={value} index={index} toggleDragging={props.toggleDragging}/>)
   }
   return (
-      <div class="grid piece-grid">{items}</div>
+      <div className="grid piece-grid">{items}</div>
   );
 }
 
@@ -78,7 +78,7 @@ var ResultFields = (props) => {
   }
 
   return(
-    <grid style={{visibility: visibility}}class={"results-field "+directionClass}>{items}</grid>
+    <grid style={{visibility: visibility}}className={"results-field "+directionClass}>{items}</grid>
   )
 }
 
@@ -184,7 +184,7 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <grid class="app-grid">
+          <grid className="app-grid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
