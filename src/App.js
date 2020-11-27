@@ -74,7 +74,7 @@ var ResultFields = (props) => {
     return val ? "✓" : "X"
   })
   for (const [index, value] of symbols.entries()) {
-    items.push(<div index={index}>{value}</div>)
+    items.push(<div key={index}>{value}</div>)
   }
 
   return(
