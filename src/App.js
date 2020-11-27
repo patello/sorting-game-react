@@ -184,14 +184,14 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <grid className="app-grid">
+          <div className="app-grid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
-          </grid>
+          </div>
         </header>
       </div>
     );
