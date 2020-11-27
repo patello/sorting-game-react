@@ -5,7 +5,7 @@ import './App.css';
 var GridItem = (props) => {
   const displayValue = (props.value > 0) ? props.value : "";
   //Class doesn't seem to actually work in any browser that I've tried. :hover doesn't fire when you are dragging.
-  const droppableClass = ((props.value === 0) && (props.dragging)) ? "droppableItem" : "";
+  const droppableClass = ((props.value === 0) && (props.dragging)) ? "droppable-item" : "";
   const dragOver = (ev) => {
     ev.preventDefault();
   }
@@ -16,7 +16,7 @@ var GridItem = (props) => {
   if (props.value === 0){
     return(
       <div
-        class={droppableClass}
+        className={droppableClass}
         onDrop={drop} 
         onDragOver={dragOver}>
         {displayValue}
@@ -34,13 +34,13 @@ var Grid = (props) => {
     items.push(<GridItem key={index} value={value} index={index} dropFunction={props.dropFunction} dragging={props.dragging}/>)
   }
   return (
-      <div class="grid">{items}</div>
+      <div className="grid">{items}</div>
   );
 }
 
 var PieceItem = (props) => {
   const displayValue = (props.value > 0) ? props.value : "";
-  const elementClass = (props.value > 0) ? "activePiece" : "inactivePiece";
+  const elementClass = (props.value > 0) ? "active-piece" : "inactive-piece";
   const draggable = props.value > 0
   const drag = function(ev){
     ev.dataTransfer.setData("value", props.value);
@@ -51,7 +51,7 @@ var PieceItem = (props) => {
     props.toggleDragging(false);
   }
   return(
-    <div class={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
+    <div className={elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd}>{displayValue}</div>
   );  
 }
 
@@ -62,23 +62,23 @@ var PieceRow = (props) => {
     items.push(<PieceItem key={index} value={value} index={index} toggleDragging={props.toggleDragging}/>)
   }
   return (
-      <div class="grid pieceGrid">{items}</div>
+      <div className="grid piece-grid">{items}</div>
   );
 }
 
 var ResultFields = (props) => {
   const visibility = (props.show) ? "visible":"hidden";
   const items = [];
-  const directionClass = (props.direction==="horizontal") ? "horizontalResultsField" : "verticalResultsField";
+  const directionClass = (props.direction==="horizontal") ? "results-field--horizontal" : "results-field--vertical";
   const symbols = props.values.map(val => {
     return val ? "✓" : "X"
   })
   for (const [index, value] of symbols.entries()) {
-    items.push(<div index={index}>{value}</div>)
+    items.push(<div key={index}>{value}</div>)
   }
 
   return(
-    <grid style={{visibility: visibility}}class={"resultsField "+directionClass}>{items}</grid>
+    <div style={{visibility: visibility}}className={"results-field "+directionClass}>{items}</div>
   )
 }
 
@@ -184,14 +184,14 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <grid class="appGrid">
+          <div className="app-grid">
             <Grid values={this.state.gridValues} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
-          </grid>
+          </div>
         </header>
       </div>
     );
