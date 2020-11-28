@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-function getAIHint(gridValues,selectedPiece,otherPieces){
+function getAIHint(gridValues,selectedPiece,otherPieces, callback){
   const path = "/api/";
   const payload = {
       board: gridValues,
@@ -27,7 +27,7 @@ function getAIHint(gridValues,selectedPiece,otherPieces){
       throw Error(response.statusText)
     }
   ).then(
-    data => this.setState({hintAction:data.action,hintPolicy:data.policy})
+    callback
   ).catch(error => {/*maybe add some state update here to show that backend is offline*/});
 };
 
@@ -153,7 +153,7 @@ class App extends React.Component{
 
   toggleDragging(bDragging, index){
     if (bDragging && this.props.aiHelp){
-      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)));
+      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)),data => this.setState({hintAction:data.action,hintPolicy:data.policy}));
     }
     else
     {
@@ -183,13 +183,20 @@ class App extends React.Component{
   movePiece(gridIndex,pieceValue,pieceIndex) {
     var newRound = this.state.round;
     var newGrid = this.state.gridValues;
-    var newGridOpponent = this.state.gridValuesOpponent
     var newPieces = this.state.pieces;
 
     newGrid[gridIndex] = parseInt(pieceValue);
     if(this.props.aiOpponent){
-      getAIHint.call(this,this.state.gridValuesOpponent,this.state.pieces[parseInt(pieceIndex)+this.state.round*4],this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)))
-      newGridOpponent[this.state.hintAction]=this.state.pieces[parseInt(pieceIndex)+this.state.round*4];
+      let piece = parseInt(pieceValue);
+      getAIHint.call(this,
+        this.state.gridValuesOpponent,
+        this.state.pieces[parseInt(pieceIndex)+this.state.round*4],
+        this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)), 
+        data=>{
+          let newGridOpponent = this.state.gridValuesOpponent;
+          newGridOpponent[data.action]=piece;
+          this.setState({gridValuesOpponent:newGridOpponent})
+        })
     }
     newPieces[parseInt(pieceIndex)+this.state.round*4] = 0;
     if (newGrid.every(item => item !== 0)){
@@ -224,7 +231,6 @@ class App extends React.Component{
     this.setState ({
       round : newRound,
       gridValues : newGrid,
-      gridValuesOpponent : newGridOpponent,
       pieces : newPieces,
       dragging : false,
       hintPolicy : new Array(16).fill(0),
