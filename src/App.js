@@ -239,7 +239,7 @@ class App extends React.Component{
             <ResultFields values={this.state.resultsOpponent.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
-            <button type="button" onClick={this.reset}>Reset</button>
+            <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
           </div>
         </header>
       </div>
