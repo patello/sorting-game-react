@@ -144,7 +144,7 @@ class App extends React.Component{
   }
 
   toggleDragging(bDragging, index){
-    if (bDragging){
+    if (bDragging && this.props.aiHelp){
       getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)));
     }
     else
@@ -234,5 +234,9 @@ class App extends React.Component{
     );
   }
 }
+
+App.defaultProps = {
+  aiHelp: false
+};
 
 export default App;
