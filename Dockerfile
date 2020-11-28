@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN git clone --branch feature/master https://github.com/patello/sorting-game-react.git
+RUN git clone --branch master https://github.com/patello/sorting-game-react.git
 
 WORKDIR /sorting-game-react/
 RUN npm install
