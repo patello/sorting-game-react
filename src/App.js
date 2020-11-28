@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-function getAIHint(gridValues,selectedPiece,otherPieces){
+function getAIHint(gridValues,selectedPiece,otherPieces, callback){
   const path = "/api/";
   const payload = {
       board: gridValues,
@@ -27,7 +27,7 @@ function getAIHint(gridValues,selectedPiece,otherPieces){
       throw Error(response.statusText)
     }
   ).then(
-    data => this.setState({hintAction:data.action,hintPolicy:data.policy})
+    callback
   ).catch(error => {/*maybe add some state update here to show that backend is offline*/});
 };
 
@@ -145,7 +145,7 @@ class App extends React.Component{
 
   toggleDragging(bDragging, index){
     if (bDragging && this.props.aiHelp){
-      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)));
+      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)),data => this.setState({hintAction:data.action,hintPolicy:data.policy}));
     }
     else
     {
