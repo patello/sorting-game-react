@@ -255,7 +255,7 @@ class App extends React.Component{
         <header className="App-header">
           <div className="app-grid--with-opponent">
             <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-            <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
+            <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <Grid values={this.state.gridValuesOpponent} helpValues={false} />
             <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
