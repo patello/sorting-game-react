@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN git clone --branch master https://github.com/patello/sorting-game-react.git
 
 WORKDIR /sorting-game-react/
-RUN npm install
+RUN npm install && \
+    npm build
 
 EXPOSE 3000
 WORKDIR /
