@@ -36,11 +36,16 @@ var GridItem = (props) => {
   //Class doesn't seem to actually work in any browser that I've tried. :hover doesn't fire when you are dragging.
   const droppableClass = ((props.value === 0) && (props.dragging)) ? "droppable-item" : "";
   const dragOver = (ev) => {
-    ev.preventDefault();
+    if(typeof props.dropFunction !== 'undefined'){
+      ev.preventDefault();
+    }
   }
   const drop = (ev) => {
     ev.preventDefault();
-    props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
+    //Don't set drop function for the opponents grid. Pieces can't be dropped here
+    if(typeof props.dropFunction !== 'undefined'){
+      props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
+    }
   }
   if (props.value === 0){
     return(
@@ -124,8 +129,10 @@ class App extends React.Component{
       round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
+      gridValuesOpponent : new Array(16).fill(0),
       dragging : false,
       results : new Array(8).fill(false),
+      resultsOpponent : new Array(8).fill(false),
       done : false,
       hintPolicy : new Array(16).fill(0),
       hintAction : 0,
@@ -138,6 +145,7 @@ class App extends React.Component{
       round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
+      gridValuesOpponent : new Array(16).fill(0),
       dragging : false,
       done : false,
     })
@@ -221,10 +229,14 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <div className="app-grid">
+          <div className="app-grid app-grid--with-opponent">
             <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-            <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
+            <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
+            <Grid values={this.state.gridValuesOpponent} helpValues={false} />
+            <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
+            <div/>
+            <ResultFields values={this.state.resultsOpponent.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
