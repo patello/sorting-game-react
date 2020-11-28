@@ -188,10 +188,11 @@ class App extends React.Component{
     newGrid[gridIndex] = parseInt(pieceValue);
     if(this.props.aiOpponent){
       let piece = parseInt(pieceValue);
+      let index = parseInt(pieceIndex);
       getAIHint.call(this,
         this.state.gridValuesOpponent,
-        this.state.pieces[parseInt(pieceIndex)+this.state.round*4],
-        this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)), 
+        piece,
+        this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)), 
         data=>{
           let newGridOpponent = this.state.gridValuesOpponent;
           newGridOpponent[data.action]=piece;
