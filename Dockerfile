@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY . /sorting-game-react
 
 WORKDIR /sorting-game-react/
-RUN npm install
+RUN npm install && \
+    npm run build
 
 EXPOSE 3000
 WORKDIR /
