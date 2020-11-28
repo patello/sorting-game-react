@@ -27,7 +27,7 @@ function getAIHint(gridValues,selectedPiece,otherPieces){
       throw Error(response.statusText)
     }
   ).then(
-    data => this.setState({helpAction:data.action,helpPolicy:data.policy})
+    data => this.setState({hintAction:data.action,hintPolicy:data.policy})
   ).catch(error => {/*maybe add some state update here to show that backend is offline*/});
 };
 
@@ -128,8 +128,8 @@ class App extends React.Component{
       dragging : false,
       results : new Array(8).fill(false),
       done : false,
-      helpPolicy : new Array(16).fill(0),
-      helpAction : 0,
+      hintPolicy : new Array(16).fill(0),
+      hintAction : 0,
     }
   }
 
@@ -152,8 +152,8 @@ class App extends React.Component{
     else
     {
       this.setState({
-        helpPolicy : new Array(16).fill(0),
-        helpAction : 0,
+        hintPolicy : new Array(16).fill(0),
+        hintAction : 0,
       });
     }
     this.setState({dragging : bDragging})
@@ -216,8 +216,8 @@ class App extends React.Component{
       gridValues : newGrid,
       pieceValues : newPieceRow,
       dragging : false,
-      helpPolicy : new Array(16).fill(0),
-      helpAction : 0,
+      hintPolicy : new Array(16).fill(0),
+      hintAction : 0,
     })
   }
   render() {
@@ -225,7 +225,7 @@ class App extends React.Component{
       <div className="App">
         <header className="App-header">
           <div className="app-grid">
-            <Grid values={this.state.gridValues} helpValues={this.state.helpPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
+            <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
