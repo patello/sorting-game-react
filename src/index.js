@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App aiHelp={false} />
+    <App aiHelp={true} />
   </React.StrictMode>,
   document.getElementById('root')
 );
