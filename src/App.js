@@ -2,12 +2,12 @@ import React from 'react';
 
 import './App.css';
 
-function getAIHelp(board,selected_brick,other_bricks){
+function getAIHint(gridValues,selectedPiece,otherPieces){
   const path = "/api/";
   const payload = {
-      board: board,
-      selected_brick:selected_brick,
-      other_bricks:other_bricks,
+      board: gridValues,
+      selected_brick:selectedPiece,
+      other_bricks:otherPieces,
   };
   
   fetch(path,
@@ -147,7 +147,7 @@ class App extends React.Component{
 
   toggleDragging(bDragging, index){
     if (bDragging){
-      getAIHelp.call(this,this.state.gridValues,this.state.pieceValues[index],this.state.pieceValues.slice(0,index).concat(this.state.pieceValues.slice(index+1,4)));
+      getAIHint.call(this,this.state.gridValues,this.state.pieceValues[index],this.state.pieceValues.slice(0,index).concat(this.state.pieceValues.slice(index+1,4)));
     }
     else
     {
