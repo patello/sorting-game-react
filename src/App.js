@@ -201,25 +201,37 @@ class App extends React.Component{
     newPieces[parseInt(pieceIndex)+this.state.round*4] = 0;
     if (newGrid.every(item => item !== 0)){
       var newResults = new Array(8).fill(true);
-      var i, j, lastValX, lastValY;
+      var newResultsOpponent = new Array(8).fill(true);
+      var i, j, lastValX, lastValY, lastValXOpponent, lastValYOpponent;
       for(i=0; i < 4; i++)
       {
         lastValX = 0;
+        lastValXOpponent = 0;
         lastValY = 0;
+        lastValYOpponent = 0;
         for(j=0; j < 4; j++)
         {
           if(this.state.gridValues[i*4+j]<lastValX){
             newResults[i]=false;
           }
+          if(this.state.gridValuesOpponent[i*4+j]<lastValXOpponent){
+            newResultsOpponent[i]=false;
+          }
           if(this.state.gridValues[j*4+i]<lastValY){
             newResults[4+i]=false;
           }
+          if(this.state.gridValuesOpponent[j*4+i]<lastValYOpponent){
+            newResultsOpponent[4+i]=false;
+          }
           lastValX=this.state.gridValues[i*4+j]
+          lastValXOpponent=this.state.gridValuesOpponent[i*4+j]
           lastValY=this.state.gridValues[j*4+i]
+          lastValYOpponent=this.state.gridValuesOpponent[j*4+i]
         }
       }
       this.setState({
         results:newResults,
+        resultsOpponent:newResultsOpponent,
         done:true
       });
     } 
