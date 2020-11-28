@@ -88,7 +88,7 @@ class App extends React.Component{
     this.toggleDragging = this.toggleDragging.bind(this);
     this.movePiece = this.movePiece.bind(this);
     this.reset = this.reset.bind(this);
-    const generatedPieces=this.generatePieces();
+    const generatedPieces=this.generatePieces(16);
     this.state = {
       round : 0,
       pieces : generatedPieces,
@@ -100,7 +100,7 @@ class App extends React.Component{
   }
 
   reset(){
-    const generatedPieces=this.generatePieces();
+    const generatedPieces=this.generatePieces(16);
     this.setState({
       round : 0,
       pieces : generatedPieces,
@@ -119,10 +119,10 @@ class App extends React.Component{
     )
   }
 
-  generatePieces(){
+  generatePieces(nrOfPiece = 16){
     var pieceList = []
     var i;
-    for(i=0; i < 40; i++)
+    for(i=0; i < nrOfPiece; i++)
     {
       var newPiece = Math.floor(Math.random() * 40) + 1;
       while(pieceList.includes(newPiece))
