@@ -90,10 +90,9 @@ class App extends React.Component{
     this.reset = this.reset.bind(this);
     const generatedPieces=this.generatePieces();
     this.state = {
-      round : 1,
+      round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
-      pieceValues : generatedPieces.slice(0,4),
       dragging : false,
       results : new Array(8).fill(false),
       done : false,
@@ -103,10 +102,9 @@ class App extends React.Component{
   reset(){
     const generatedPieces=this.generatePieces();
     this.setState({
-      round : 1,
+      round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
-      pieceValues : generatedPieces.slice(0,4),
       dragging : false,
       results : new Array(8).fill(false),
       done : false,
@@ -139,10 +137,10 @@ class App extends React.Component{
   movePiece(gridIndex,pieceValue,pieceIndex) {
     var newRound = this.state.round;
     var newGrid = this.state.gridValues;
-    var newPieceRow = this.state.pieceValues;
+    var newPieces = this.state.pieces;
 
     newGrid[gridIndex] = parseInt(pieceValue);
-    newPieceRow[pieceIndex] = 0;
+    newPieces[parseInt(pieceIndex)+this.state.round*4] = 0;
     if (newGrid.every(item => item !== 0)){
       var newResults = new Array(8).fill(true);
       var i, j, lastValX, lastValY;
@@ -168,15 +166,14 @@ class App extends React.Component{
       });
     } 
     else {
-      if (newPieceRow.every(item => item === 0)) {
+      if (newPieces.slice(this.state.round*4, this.state.round*4+4).every(item => item === 0)) {
         newRound = newRound + 1;
-        newPieceRow = this.state.pieces.slice((newRound-1)*4,4+(newRound-1)*4)
       }
     }
     this.setState ({
       round : newRound,
       gridValues : newGrid,
-      pieceValues : newPieceRow,
+      pieces : newPieces,
       dragging : false
     })
   }
@@ -189,7 +186,7 @@ class App extends React.Component{
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
-            <PieceRow values={this.state.pieceValues} toggleDragging={this.toggleDragging}/>
+            <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
             <button type="button" onClick={this.reset}>Reset</button>
           </div>
         </header>
