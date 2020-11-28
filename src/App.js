@@ -11,14 +11,24 @@ function getAIHelp(board,selected_brick,other_bricks){
   };
   
   fetch(path,
-  {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: "POST",
-    body: JSON.stringify( payload )
-  }).then(response => response.json()).then(data => this.setState({helpAction:data.action,helpPolicy:data.policy}));
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify( payload )
+    }
+  ).then(
+    response => {
+      if(response.ok){
+        return response.json()
+      }
+      throw Error(response.statusText)
+    }
+  ).then(
+    data => this.setState({helpAction:data.action,helpPolicy:data.policy})
+  ).catch(error => {/*maybe add some state update here to show that backend is offline*/});
 };
 
 var GridItem = (props) => {
