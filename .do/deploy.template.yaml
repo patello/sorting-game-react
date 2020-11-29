@@ -1,9 +1,18 @@
 spec:
-  name: sample-react
+  name: sorting-game-react
+  region: ams
   services:
-  - build_command: yarn build
-    environment_slug: node-js
-    git:
-      branch: main
-      repo_clone_url: https://github.com/digitalocean/sample-react.git
-    name: sample-react
+  - dockerfile_path: Dockerfile
+    envs:
+    - key: DANGEROUSLY_DISABLE_HOST_CHECK
+      scope: RUN_AND_BUILD_TIME
+      value: "true"
+    github:
+      branch: master
+      repo: patello/sorting-game-react
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    name: sorting-game-react
+    routes:
+    - path: /
