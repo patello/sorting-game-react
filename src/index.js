@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Selection from './Selection';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App aiHelp={false} aiOpponent={true}/>
+    <div className="index">
+      <header className="Index-header"></header>
+      <Selection />
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );

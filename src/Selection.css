@@ -1,0 +1,30 @@
+.selection-button{
+    margin-left: 20px;
+    border-radius: 20px;
+    background-color: #007CC7;
+    color:#EEFBFB;
+}
+
+.selection-icon{
+    height: 150px;
+    fill:#EEFBFB;
+}
+
+.selection-text{
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: medium;
+}
+
+.back-button{
+    background: none;
+    border: none;
+    position: relative;
+    left: -50px;
+    top: 43px;
+}
+
+.back-button>img{
+    height:30px;
+    fill: #EEFBFB;
+}
