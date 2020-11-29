@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-function getAIHint(gridValues,selectedPiece,otherPieces){
+function getAIHint(gridValues,selectedPiece,otherPieces, callback){
   const path = "/api/";
   const payload = {
       board: gridValues,
@@ -27,7 +27,7 @@ function getAIHint(gridValues,selectedPiece,otherPieces){
       throw Error(response.statusText)
     }
   ).then(
-    data => this.setState({hintAction:data.action,hintPolicy:data.policy})
+    callback
   ).catch(error => {/*maybe add some state update here to show that backend is offline*/});
 };
 
@@ -36,11 +36,16 @@ var GridItem = (props) => {
   //Class doesn't seem to actually work in any browser that I've tried. :hover doesn't fire when you are dragging.
   const droppableClass = ((props.value === 0) && (props.dragging)) ? "droppable-item" : "";
   const dragOver = (ev) => {
-    ev.preventDefault();
+    if(typeof props.dropFunction !== 'undefined'){
+      ev.preventDefault();
+    }
   }
   const drop = (ev) => {
     ev.preventDefault();
-    props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
+    //Don't set drop function for the opponents grid. Pieces can't be dropped here
+    if(typeof props.dropFunction !== 'undefined'){
+      props.dropFunction(props.index,ev.dataTransfer.getData("value"),ev.dataTransfer.getData("index"))
+    }
   }
   if (props.value === 0){
     return(
@@ -124,8 +129,10 @@ class App extends React.Component{
       round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
+      gridValuesOpponent : new Array(16).fill(0),
       dragging : false,
       results : new Array(8).fill(false),
+      resultsOpponent : new Array(8).fill(false),
       done : false,
       hintPolicy : new Array(16).fill(0),
       hintAction : 0,
@@ -138,6 +145,7 @@ class App extends React.Component{
       round : 0,
       pieces : generatedPieces,
       gridValues : new Array(16).fill(0),
+      gridValuesOpponent : new Array(16).fill(0),
       dragging : false,
       done : false,
     })
@@ -145,7 +153,7 @@ class App extends React.Component{
 
   toggleDragging(bDragging, index){
     if (bDragging && this.props.aiHelp){
-      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(0,this.state.round*4).concat(this.state.pieces.slice(this.state.round*4+1,4)));
+      getAIHint.call(this,this.state.gridValues,this.state.pieces[index+this.state.round*4],this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)),data => this.setState({hintAction:data.action,hintPolicy:data.policy}));
     }
     else
     {
@@ -178,28 +186,53 @@ class App extends React.Component{
     var newPieces = this.state.pieces;
 
     newGrid[gridIndex] = parseInt(pieceValue);
+    if(this.props.aiOpponent){
+      let piece = parseInt(pieceValue);
+      let index = parseInt(pieceIndex);
+      getAIHint.call(this,
+        this.state.gridValuesOpponent,
+        piece,
+        this.state.pieces.slice(this.state.round*4,index+this.state.round*4).concat(this.state.pieces.slice(index+this.state.round*4+1,this.state.round*4+4)), 
+        data=>{
+          let newGridOpponent = this.state.gridValuesOpponent;
+          newGridOpponent[data.action]=piece;
+          this.setState({gridValuesOpponent:newGridOpponent})
+        })
+    }
     newPieces[parseInt(pieceIndex)+this.state.round*4] = 0;
     if (newGrid.every(item => item !== 0)){
       var newResults = new Array(8).fill(true);
-      var i, j, lastValX, lastValY;
+      var newResultsOpponent = new Array(8).fill(true);
+      var i, j, lastValX, lastValY, lastValXOpponent, lastValYOpponent;
       for(i=0; i < 4; i++)
       {
         lastValX = 0;
+        lastValXOpponent = 0;
         lastValY = 0;
+        lastValYOpponent = 0;
         for(j=0; j < 4; j++)
         {
           if(this.state.gridValues[i*4+j]<lastValX){
             newResults[i]=false;
           }
+          if(this.state.gridValuesOpponent[i*4+j]<lastValXOpponent){
+            newResultsOpponent[i]=false;
+          }
           if(this.state.gridValues[j*4+i]<lastValY){
             newResults[4+i]=false;
           }
+          if(this.state.gridValuesOpponent[j*4+i]<lastValYOpponent){
+            newResultsOpponent[4+i]=false;
+          }
           lastValX=this.state.gridValues[i*4+j]
+          lastValXOpponent=this.state.gridValuesOpponent[i*4+j]
           lastValY=this.state.gridValues[j*4+i]
+          lastValYOpponent=this.state.gridValuesOpponent[j*4+i]
         }
       }
       this.setState({
         results:newResults,
+        resultsOpponent:newResultsOpponent,
         done:true
       });
     } 
@@ -221,10 +254,14 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <div className="app-grid">
+          <div className="app-grid--with-opponent">
             <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
             <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
+            <Grid values={this.state.gridValuesOpponent} helpValues={false} />
+            <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
             <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
+            <div/>
+            <ResultFields values={this.state.resultsOpponent.slice(4,8)} show={this.state.done} direction="horizontal"/>
             <div/>
             <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
             <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
@@ -236,7 +273,8 @@ class App extends React.Component{
 }
 
 App.defaultProps = {
-  aiHelp: false
+  aiHelp: false,
+  aiOpponent: false,
 };
 
 export default App;

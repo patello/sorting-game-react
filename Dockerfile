@@ -2,10 +2,19 @@ FROM node:current-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    python3 \
+    python3-pip \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN git clone --branch feature/server https://github.com/patello/sorting-game-reinforcement-learning.git
+
+WORKDIR /sorting-game-reinforcement-learning/
+
+RUN pip3 install --upgrade setuptools && \
+    pip3 install --no-cache-dir -r requirements.txt
+    
 COPY . /sorting-game-react
 
 WORKDIR /sorting-game-react/
