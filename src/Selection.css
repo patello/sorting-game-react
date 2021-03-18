@@ -17,11 +17,19 @@
 }
 
 .back-button{
+    width: 50px;
+    height: 50px;
     background: none;
     border: none;
     position: relative;
-    left: -50px;
-    top: 43px;
+    left: 0px;
+    top: 50px;
+    text-align: center;
+    border: none;
+    background-color: #007CC7;
+    color:#EEFBFB;
+    text-decoration: none;
+    border-radius: 2px;
 }
 
 .back-button>img{

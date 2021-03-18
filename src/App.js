@@ -254,27 +254,35 @@ class App extends React.Component{
     if(this.props.aiOpponent){
       return (
         <div className="app-grid--with-opponent">
+          <div/>
           <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
           <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
           <Grid values={this.state.gridValuesOpponent} helpValues={false} />
           <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
+          <div/>
           <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
           <div/>
           <ResultFields values={this.state.resultsOpponent.slice(4,8)} show={this.state.done} direction="horizontal"/>
           <div/>
-          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
           <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
+          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
+          <div/>
+          <div/>
+          <div/>
         </div>
       );
     } else {
       return (
         <div className="app-grid">
+          <div/>
           <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
           <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
+          <div/>
           <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
           <div/>
-          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
           <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
+          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
+          <div/>
         </div>
       );
     }
