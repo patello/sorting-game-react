@@ -51,7 +51,7 @@ var GridItem = (props) => {
     return(
       <div
         style={{background:`rgba(${255-255*props.opacity}, ${255-131*props.opacity}, ${255-56*props.opacity}, 1)`}}
-        className={droppableClass}
+        className={droppableClass + " gridItem"}
         onDrop={drop} 
         onDragOver={dragOver}
       >
@@ -59,15 +59,31 @@ var GridItem = (props) => {
       </div>
     );
   }
-  return(<div>{displayValue}</div>);
+  return(<div className = "gridItem">{displayValue}</div>);
 }
 
 var Grid = (props) => {
 
-  const items = []
+  const items = [];
 
-  for (const [index, value] of props.values.entries()) {
-    items.push(<GridItem key={index} opacity={props.helpValues[index]} value={value} index={index} dropFunction={props.dropFunction} dragging={props.dragging}/>)
+  for (let i=0; i < 25; i++){
+    let itemCol = i % 5;
+    let itemRow = Math.floor(i/5);
+    if (i < 20){
+      if (i % 5 !== 4){
+        let gridItemIndex = itemRow*4 + itemCol;
+        items.push(<GridItem key={i} opacity={props.helpValues[gridItemIndex]} value={props.values[gridItemIndex]} index={gridItemIndex} dropFunction={props.dropFunction} dragging={props.dragging}/>);
+      }
+      else  {
+        items.push(<ResultItem key={i} show={props.showResults} value={props.results[itemRow]}/>);
+      }
+    }
+    else if (i < 24) {
+      items.push(<ResultItem key={i} show={props.showResults} value={props.results[4+itemCol]}/>);
+    }
+    else {
+      items.push(<div/>);
+    }
   }
   return (
       <div className="grid">{items}</div>
@@ -97,26 +113,18 @@ var PieceRow = (props) => {
   for (const [index, value] of props.values.entries()) {
     items.push(<PieceItem key={index} value={value} index={index} toggleDragging={props.toggleDragging}/>)
   }
+  items.push(<button className="reset-button" type="button" onClick={props.reset}>Reset</button>)
   return (
-      <div className="grid piece-grid">{items}</div>
+      <div className="piece-grid">{items}</div>
   );
 }
 
-var ResultFields = (props) => {
+var ResultItem = (props) => {
   const visibility = (props.show) ? "visible":"hidden";
-  const items = [];
-  const directionClass = (props.direction==="horizontal") ? "results-field--horizontal" : "results-field--vertical";
-  const symbols = props.values.map(val => {
-    return val ? "✓" : "X"
-  })
-  for (const [index, value] of symbols.entries()) {
-    items.push(<div key={index}>{value}</div>)
-  }
-
-  return(
-    <div style={{visibility: visibility}}className={"results-field "+directionClass}>{items}</div>
-  )
+  const symbol = props.value ? "✓" : "X"
+  return <div class="resultItem" style={{visibility: visibility}} key={props.key}>{symbol}</div>
 }
+
 
 class App extends React.Component{
   constructor(props){
@@ -254,35 +262,17 @@ class App extends React.Component{
     if(this.props.aiOpponent){
       return (
         <div className="app-grid--with-opponent">
-          <div/>
-          <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-          <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
-          <Grid values={this.state.gridValuesOpponent} helpValues={false} />
-          <ResultFields values={this.state.resultsOpponent.slice(0,4)} show={this.state.done} direction="vertical"/>
-          <div/>
-          <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
-          <div/>
-          <ResultFields values={this.state.resultsOpponent.slice(4,8)} show={this.state.done} direction="horizontal"/>
-          <div/>
-          <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
-          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
-          <div/>
-          <div/>
+          <Grid values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
+          <Grid values={this.state.gridValuesOpponent} results={this.state.resultsOpponent} showResults={this.state.done}  helpValues={false} />
+          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset}/>
           <div/>
         </div>
       );
     } else {
       return (
         <div className="app-grid">
-          <div/>
-          <Grid values={this.state.gridValues} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
-          <ResultFields values={this.state.results.slice(0,4)} show={this.state.done} direction="vertical"/>
-          <div/>
-          <ResultFields values={this.state.results.slice(4,8)} show={this.state.done} direction="horizontal"/>
-          <div/>
-          <button className="reset-button" type="button" onClick={this.reset}>Reset</button>
-          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging}/>
-          <div/>
+          <Grid values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece}/>
+          <PieceRow values={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset}/>
         </div>
       );
     }
