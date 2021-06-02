@@ -78,8 +78,25 @@ var GridItem = (props) => {
 var Grid = (props) => {
 
   const items = [];
+  //Create game tiles
+  for (let i=0; i < 4*4; i++){
+    let itemCol = i % 4;
+    let itemRow = Math.floor(i/4);
+    let gridItemIndex = itemRow*4 + itemCol;
+    items.push(<GridItem key={items.length} opacity={props.helpValues[gridItemIndex]} value={props.values[gridItemIndex]} index={gridItemIndex} row={itemRow} col={itemCol} dropFunction={props.dropFunction} dragging={props.dragging}/>);
+  }
 
-  for (let i=0; i < 25; i++){
+  //Create vertical results
+  for(let i=0; i < 4; i++){
+    items.push(<ResultItem key={items.length} show={props.showResults} value={props.results[i]} index={i} vertical={true}/>);
+  }
+
+  //Create horizontal results
+  for(let i=0; i < 4; i++){
+    items.push(<ResultItem key={items.length} show={props.showResults} value={props.results[4+i]} index={i} vertical={false}/>);
+  }
+
+/*   for (let i=0; i < 25; i++){
     let itemCol = i % 5;
     let itemRow = Math.floor(i/5);
     if (i < 20){
@@ -97,7 +114,7 @@ var Grid = (props) => {
     else {
       items.push(<div/>);
     }
-  }
+  } */
   return (
       <div className="grid">{items}</div>
   );
