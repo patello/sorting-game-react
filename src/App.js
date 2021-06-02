@@ -50,7 +50,11 @@ var GridItem = (props) => {
   if (props.value === 0){
     return(
       <div
-        style={{background:`rgba(${255-255*props.opacity}, ${255-131*props.opacity}, ${255-56*props.opacity}, 1)`}}
+        style={{
+          background:`rgba(${255-255*props.opacity}, ${255-131*props.opacity}, ${255-56*props.opacity}, 1)`,
+          gridRow : `${"tile-row-start "+(props.row+1)}`,
+          gridColumn : `${"tile-col-start "+(props.col+1)}`
+        }}
         className={droppableClass + " gridItem"}
         onDrop={drop} 
         onDragOver={dragOver}
@@ -59,7 +63,16 @@ var GridItem = (props) => {
       </div>
     );
   }
-  return(<div className = "gridItem">{displayValue}</div>);
+  return(
+    <div 
+      className = "gridItem"
+      style={{
+        gridRow : `${"tile-row-start "+(props.row+1)}`,
+        gridColumn : `${"tile-col-start "+(props.col+1)}`
+      }}
+    >
+        {displayValue}
+    </div>);
 }
 
 var Grid = (props) => {
@@ -72,14 +85,14 @@ var Grid = (props) => {
     if (i < 20){
       if (i % 5 !== 4){
         let gridItemIndex = itemRow*4 + itemCol;
-        items.push(<GridItem key={i} opacity={props.helpValues[gridItemIndex]} value={props.values[gridItemIndex]} index={gridItemIndex} dropFunction={props.dropFunction} dragging={props.dragging}/>);
+        items.push(<GridItem key={i} opacity={props.helpValues[gridItemIndex]} value={props.values[gridItemIndex]} index={gridItemIndex} row={itemRow} col={itemCol} dropFunction={props.dropFunction} dragging={props.dragging}/>);
       }
       else  {
-        items.push(<ResultItem key={i} show={props.showResults} value={props.results[itemRow]}/>);
+        items.push(<ResultItem key={i} show={props.showResults} value={props.results[itemRow]} index={itemRow} vertical={true}/>);
       }
     }
     else if (i < 24) {
-      items.push(<ResultItem key={i} show={props.showResults} value={props.results[4+itemCol]}/>);
+      items.push(<ResultItem key={i} show={props.showResults} value={props.results[4+itemCol]} index={itemCol} vertical={false}/>);
     }
     else {
       items.push(<div/>);
@@ -122,7 +135,18 @@ var PieceRow = (props) => {
 var ResultItem = (props) => {
   const visibility = (props.show) ? "visible":"hidden";
   const symbol = props.value ? "✓" : "X"
-  return <div class="resultItem" style={{visibility: visibility}} key={props.key}>{symbol}</div>
+  const gridRow = (props.vertical?"tile-row-start "+(props.index+1) : "result-row-start");
+  const gridCol = (props.vertical?"result-col-start" : "tile-col-start "+(props.index+1));
+  return <div 
+    class="resultItem" 
+    style={{
+      visibility: visibility,
+      gridRow : gridRow,
+      gridColumn : gridCol,
+    }} 
+    key={props.key}>
+        {symbol}
+    </div>
 }
 
 

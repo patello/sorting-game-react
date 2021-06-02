@@ -26,8 +26,8 @@
 
 .grid, .piece-grid{
   display: grid;
-  grid-gap: 30px;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: repeat(3,[tile-row-start] 50px [tile-gap-start] 30px) [tile-row-start] 50px [result-gap-start] 5px [result-row-start] 25px [tile-gap-start] 30px [tile-row-start] 50px;
+  grid-template-columns: [control-col-start] 50px repeat(3,[tile-col-start] 50px [tile-gap-start] 30px) [tile-col-start] 50px [result-gap-start] 5px [result-col-start] 25px;
   padding: 0px 25px;
 }
 
@@ -38,8 +38,6 @@
 }
 
 .grid>.gridItem, .piece-grid>div{
-  width: 50px;
-  height: 50px;
   line-height: 50px;
   text-align: center;
   background-color: #EEFBFB;
@@ -49,8 +47,6 @@
 }
 
 .grid>.resultItem{
-  width:50px;
-  height:50px;
   line-height: 50px;
   text-align: center;
 }
