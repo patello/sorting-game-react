@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './App.css';
+import backicon from './back.svg';
 
 function getAIHint(gridValues,selectedPiece,otherPieces, callback){
   const path = "/api/";
@@ -78,6 +79,7 @@ var GridItem = (props) => {
 var Grid = (props) => {
   //TODO: Consider iterating over the props instead, like for (const [index, value] of props.values.entries()). Could be more dynamic
   const items = [];
+
   //Create game tiles
   for (let i=0; i < 4*4; i++){
     let itemCol = i % 4;
@@ -102,7 +104,12 @@ var Grid = (props) => {
       items.push(<PieceItem key={items.length} value={props.pieceValues[i]} index={i} toggleDragging={props.toggleDragging}/>);
     }
     items.push(<div key={items.length} className="piece-grid"></div>)
-    items.push(<button key={items.length} className="reset-button" type="button" onClick={props.reset}>Reset</button>);
+    items.push(<button key={items.length} className="button" id="reset-button" type="button" onClick={props.reset}>Reset</button>);
+    items.push(
+      <button type="button" className="button" id="back-button" onClick={props.goBack}>
+          <img src={backicon} className="selection-icon" alt="Go back" />
+      </button>
+    );
   }
 
   return (
@@ -299,7 +306,7 @@ class App extends React.Component{
     if(this.props.aiOpponent){
       return (
         <div className="app-grid--with-opponent">
-          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset}/>
+          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset} goBack={()=>this.props.goBack}/>
           <Grid main={false} values={this.state.gridValuesOpponent} results={this.state.resultsOpponent} showResults={this.state.done}  helpValues={false} />
           <div/>
         </div>
@@ -307,7 +314,7 @@ class App extends React.Component{
     } else {
       return (
         <div className="app-grid">
-          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset}/>
+          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset} goBack={this.props.goBack}/>
         </div>
       );
     }

@@ -3,7 +3,6 @@ import React from 'react';
 import soloicon from './solo.svg';
 import helpicon from './help.svg';
 import opponenticon from './opponent.svg';
-import backicon from './back.svg';
 
 import './Selection.css';
 
@@ -13,7 +12,6 @@ class Selection extends React.Component{
     constructor(props){
       super(props);
       this.selectMode.bind(this);
-      this.goBack.bind(this);
       this.state = {
           selection: false,
           aiHelp: false,
@@ -29,7 +27,9 @@ class Selection extends React.Component{
             }
         )
     }
-    goBack(){
+    //Wasn't able to propagate twice by only binding the function like I do with selectMode
+    //https://stackoverflow.com/questions/32317154/react-uncaught-typeerror-cannot-read-property-setstate-of-undefined
+    goBack = () => {
         this.setState(
             {selection:false}
         )
@@ -38,15 +38,12 @@ class Selection extends React.Component{
         if(this.state.selection){
             return (
                 <div>
-                    <button type="button" className="back-button" onClick={()=>this.goBack()}>
-                        <img src={backicon} className="selection-icon" alt="Go back" />
-                    </button>
-                    <App aiHelp={this.state.aiHelp} aiOpponent={this.state.aiOpponent}/>
+                    <App aiHelp={this.state.aiHelp} aiOpponent={this.state.aiOpponent} goBack={this.goBack}/>
                 </div>
             );
         } else {
             return (
-                <div>
+                <grid style={{gridTemplateRows:"auto auto auto"}}>
                     <button type="button" className="selection-button" onClick={()=>this.selectMode(false,false)}>
                         <img src={soloicon} className="selection-icon" alt="Play solo" />
                         <div className="selection-text">Play Solo</div>
@@ -59,7 +56,7 @@ class Selection extends React.Component{
                         <img src={opponenticon} className="selection-icon" alt="Play against AI opponent" />
                         <div className="selection-text">Play Against AI</div>
                     </button>
-                </div>
+                </grid>
             );
         }
     }

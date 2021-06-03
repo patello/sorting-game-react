@@ -1,6 +1,4 @@
-.reset-button{
-  width: 50px;
-  height: 50px;
+.button{
   font-size: 15px;
   text-align: center;
   border: none;
@@ -8,6 +6,23 @@
   color:#EEFBFB;
   text-decoration: none;
   border-radius: 2px;
+}
+
+.selection-icon {
+  fill: #EEFBFB;
+  height: 75%;
+  display: flex;
+}
+
+#reset-button{
+  
+  grid-row: piece-row-start;
+  grid-column: control-col-start;
+}
+
+#back-button{
+  grid-row: tile-row-start 1;
+  grid-column: control-col-start;
 }
 
 .app-grid{
@@ -27,7 +42,7 @@
 .grid{
   display: grid;
   grid-template-rows: repeat(3,[tile-row-start] 50px [tile-gap-start] 30px) [tile-row-start] 50px [result-gap-start] 5px [result-row-start] 25px [tile-gap-start] 30px [piece-row-start] 50px;
-  grid-template-columns: [control-col-start] 50px repeat(3,[tile-col-start] 50px [tile-gap-start] 30px) [tile-col-start] 50px [result-gap-start] 5px [result-col-start] 25px;
+  grid-template-columns: [control-col-start] 50px 30px repeat(3,[tile-col-start] 50px [tile-gap-start] 30px) [tile-col-start] 50px [result-gap-start] 5px [result-col-start] 25px;
   padding: 0px 25px;
 }
 
