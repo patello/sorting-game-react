@@ -24,26 +24,36 @@
   align-items: center;
 }
 
-.grid, .piece-grid{
+.grid{
   display: grid;
-  grid-template-rows: repeat(3,[tile-row-start] 50px [tile-gap-start] 30px) [tile-row-start] 50px [result-gap-start] 5px [result-row-start] 25px [tile-gap-start] 30px [tile-row-start] 50px;
+  grid-template-rows: repeat(3,[tile-row-start] 50px [tile-gap-start] 30px) [tile-row-start] 50px [result-gap-start] 5px [result-row-start] 25px [tile-gap-start] 30px [piece-row-start] 50px;
   grid-template-columns: [control-col-start] 50px repeat(3,[tile-col-start] 50px [tile-gap-start] 30px) [tile-col-start] 50px [result-gap-start] 5px [result-col-start] 25px;
   padding: 0px 25px;
 }
 
 .piece-grid{
+  grid-row: piece-row-start;
+  grid-column-start: tile-col-start 1;
+  grid-column-end: span 7;
   border: 5px solid #007CC7;
-  border-radius: 25px;
-  padding: 20px;
+  width: calc(100% + 30px);
+  height: calc(100% + 30px);
+  position: relative;
+  left: -15px;
+  top: -15px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  z-index: 1
 }
 
-.grid>.gridItem, .piece-grid>div{
+.grid>.gridItem, .grid>.pieceItem{
   line-height: 50px;
   text-align: center;
   background-color: #EEFBFB;
   color: black;
   /*Makes it so the border is placed on the inside*/
   box-sizing: border-box;
+  z-index: 2
 }
 
 .grid>.resultItem{
@@ -57,21 +67,4 @@
 
 .droppable-item:hover {
   border: 2px solid lightcoral;
-}
-
-.results-field{
-  display: grid;
-  grid-gap: 30px;
-}
-
-.results-field--horizontal{
-  grid-template-columns: auto auto auto auto;
-  padding: 0px 25px;
-}
-
-.results-field--vertical{
-  grid-template-columns: auto;
-  /*Adjust left so that it has the same distance as the horizontal one*/
-  position: relative;
-  left: -35px;
 }
