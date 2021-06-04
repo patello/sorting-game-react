@@ -140,18 +140,6 @@ var PieceItem = (props) => {
   );  
 }
 
-var PieceRow = (props) => {
-  const items = []
-
-  for (const [index, value] of props.values.entries()) {
-    items.push(<PieceItem key={index} value={value} index={index} toggleDragging={props.toggleDragging}/>)
-  }
-  items.push(<button className="reset-button" type="button" onClick={props.reset}>Reset</button>)
-  return (
-      <div className="piece-grid">{items}</div>
-  );
-}
-
 var ResultItem = (props) => {
   const visibility = (props.show) ? "visible":"hidden";
   const symbol = props.value ? "✓" : "X"
