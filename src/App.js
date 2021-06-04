@@ -306,7 +306,7 @@ class App extends React.Component{
     if(this.props.aiOpponent){
       return (
         <div className="app-grid--with-opponent">
-          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset} goBack={()=>this.props.goBack}/>
+          <Grid main={true} values={this.state.gridValues} results={this.state.results} showResults={this.state.done} helpValues={this.state.hintPolicy} dragging={this.state.dragging} dropFunction={this.movePiece} pieceValues={this.state.pieces.slice(this.state.round*4,this.state.round*4+4)} toggleDragging={this.toggleDragging} reset={this.reset} goBack={this.props.goBack}/>
           <Grid main={false} values={this.state.gridValuesOpponent} results={this.state.resultsOpponent} showResults={this.state.done}  helpValues={false} />
           <div/>
         </div>
