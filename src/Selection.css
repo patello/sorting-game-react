@@ -1,5 +1,4 @@
 .selection-button{
-    margin-left: 20px;
     border-radius: 20px;
     background-color: #007CC7;
     color:#EEFBFB;
@@ -40,4 +39,11 @@
     display: grid;
     grid-template-columns: repeat(3,150px);
     grid-auto-rows:  150px;
+    gap: 10px 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .selection-grid{
+        grid-template-columns: repeat(1,150px);
+    }
 }
