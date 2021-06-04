@@ -60,7 +60,7 @@
   z-index: 1
 }
 
-.grid>.gridItem, .grid>.pieceItem{
+.grid>.grid-item, .grid>.piece-item{
   line-height: 50px;
   text-align: center;
   background-color: #EEFBFB;
@@ -70,7 +70,7 @@
   z-index: 2
 }
 
-.grid>.resultItem{
+.grid>.result-item{
   line-height: 50px;
   text-align: center;
 }

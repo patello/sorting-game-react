@@ -56,7 +56,7 @@ var GridItem = (props) => {
           gridRow : `${"tiles-start "+(props.row+1)}`,
           gridColumn : `${"tiles-start "+(props.col+1)}`
         }}
-        className={droppableClass + " gridItem"}
+        className={droppableClass + " grid-item"}
         onDrop={drop} 
         onDragOver={dragOver}
       >
@@ -66,7 +66,7 @@ var GridItem = (props) => {
   }
   return(
     <div 
-      className = "gridItem"
+      className = "grid-item"
       style={{
         gridRow : `${"tiles-start "+(props.row+1)}`,
         gridColumn : `${"tiles-start "+(props.col+1)}`
@@ -136,7 +136,7 @@ var PieceItem = (props) => {
   }
 
   return(
-    <div className={"pieceItem "+elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd} style={style}>{displayValue}</div>
+    <div className={"piece-item "+elementClass} draggable={draggable} onDragStart={drag} onDragEnd={dragEnd} style={style}>{displayValue}</div>
   );  
 }
 
@@ -146,7 +146,7 @@ var ResultItem = (props) => {
   const gridRow = (props.vertical?"tiles-start "+(props.index+1) : "results-start");
   const gridCol = (props.vertical?"results-start" : "tiles-start "+(props.index+1));
   return <div 
-    class="resultItem" 
+    class="result-item" 
     style={{
       visibility: visibility,
       gridRow : gridRow,
