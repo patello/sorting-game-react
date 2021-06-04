@@ -10,8 +10,7 @@
 
 .selection-icon {
   fill: #EEFBFB;
-  height: 75%;
-  display: flex;
+  width: 75%;
 }
 
 #reset-button{

@@ -43,14 +43,14 @@ class Selection extends React.Component{
             );
         } else {
             return (
-                <grid style={{gridTemplateRows:"auto auto auto"}}>
+                <grid className="selection-grid">
                     <button type="button" className="selection-button" onClick={()=>this.selectMode(false,false)}>
                         <img src={soloicon} className="selection-icon" alt="Play solo" />
                         <div className="selection-text">Play Solo</div>
                     </button>
                     <button type="button" className="selection-button" onClick={()=>this.selectMode(true,false)}>
                         <img src={helpicon} className="selection-icon" alt="Play with AI help" />
-                        <div className="selection-text">Play with AI Help</div>
+                        <div className="selection-text">Play With AI</div>
                     </button>
                     <button type="button" className="selection-button" onClick={()=>this.selectMode(false,true)}>
                         <img src={opponenticon} className="selection-icon" alt="Play against AI opponent" />
