@@ -11,7 +11,7 @@ import App from './App';
 class Selection extends React.Component{
     constructor(props){
       super(props);
-      this.selectMode.bind(this);
+      this.goBack = this.goBack.bind(this)
       this.state = {
           selection: false,
           aiHelp: false,
@@ -29,7 +29,7 @@ class Selection extends React.Component{
     }
     //Wasn't able to propagate twice by only binding the function like I do with selectMode
     //https://stackoverflow.com/questions/32317154/react-uncaught-typeerror-cannot-read-property-setstate-of-undefined
-    goBack = () => {
+    goBack() {
         this.setState(
             {selection:false}
         )
