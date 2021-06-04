@@ -53,8 +53,8 @@ var GridItem = (props) => {
       <div
         style={{
           background:`rgba(${255-255*props.opacity}, ${255-131*props.opacity}, ${255-56*props.opacity}, 1)`,
-          gridRow : `${"tile-row-start "+(props.row+1)}`,
-          gridColumn : `${"tile-col-start "+(props.col+1)}`
+          gridRow : `${"tiles-start "+(props.row+1)}`,
+          gridColumn : `${"tiles-start "+(props.col+1)}`
         }}
         className={droppableClass + " gridItem"}
         onDrop={drop} 
@@ -68,8 +68,8 @@ var GridItem = (props) => {
     <div 
       className = "gridItem"
       style={{
-        gridRow : `${"tile-row-start "+(props.row+1)}`,
-        gridColumn : `${"tile-col-start "+(props.col+1)}`
+        gridRow : `${"tiles-start "+(props.row+1)}`,
+        gridColumn : `${"tiles-start "+(props.col+1)}`
       }}
     >
         {displayValue}
@@ -131,8 +131,8 @@ var PieceItem = (props) => {
   }
 
   const style={
-    gridRow : `${"piece-row-start "}`,
-    gridColumn : `${"tile-col-start "+(props.index+1)}`
+    gridRow : `${"pieces-start "}`,
+    gridColumn : `${"tiles-start "+(props.index+1)}`
   }
 
   return(
@@ -143,8 +143,8 @@ var PieceItem = (props) => {
 var ResultItem = (props) => {
   const visibility = (props.show) ? "visible":"hidden";
   const symbol = props.value ? "✓" : "X"
-  const gridRow = (props.vertical?"tile-row-start "+(props.index+1) : "result-row-start");
-  const gridCol = (props.vertical?"result-col-start" : "tile-col-start "+(props.index+1));
+  const gridRow = (props.vertical?"tiles-start "+(props.index+1) : "results-start");
+  const gridCol = (props.vertical?"results-start" : "tiles-start "+(props.index+1));
   return <div 
     class="resultItem" 
     style={{

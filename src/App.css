@@ -15,13 +15,13 @@
 
 #reset-button{
   
-  grid-row: piece-row-start;
-  grid-column: control-col-start;
+  grid-row: pieces-start;
+  grid-column: controls-start;
 }
 
 #back-button{
-  grid-row: tile-row-start 1;
-  grid-column: control-col-start;
+  grid-row: tiles-start 1;
+  grid-column: controls-start;
 }
 
 .app-grid{
@@ -40,14 +40,14 @@
 
 .grid{
   display: grid;
-  grid-template-rows: repeat(3,[tile-row-start] 50px [tile-gap-start] 30px) [tile-row-start] 50px [result-gap-start] 5px [result-row-start] 25px [tile-gap-start] 30px [piece-row-start] 50px;
-  grid-template-columns: [control-col-start] 50px 30px repeat(3,[tile-col-start] 50px [tile-gap-start] 30px) [tile-col-start] 50px [result-gap-start] 5px [result-col-start] 25px;
+  grid-template-rows: repeat(3,[tiles-start] 50px [tile-gap-start] 30px) [tiles-start] 50px [result-gap-start] 5px [results-start] 25px [tile-gap-start] 30px [pieces-start] 50px;
+  grid-template-columns: [controls-start] 50px 30px repeat(3,[tiles-start] 50px [tile-gap-start] 30px) [tiles-start] 50px [result-gap-start] 5px [results-start] 25px;
   padding: 0px 25px;
 }
 
 .piece-grid{
-  grid-row: piece-row-start;
-  grid-column-start: tile-col-start 1;
+  grid-row: pieces-start;
+  grid-column-start: tiles-start 1;
   grid-column-end: span 7;
   border: 5px solid #007CC7;
   width: calc(100% + 30px);
