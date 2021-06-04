@@ -60,19 +60,17 @@
   z-index: 1
 }
 
+.grid>div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .grid>.grid-item, .grid>.piece-item{
-  line-height: 50px;
-  text-align: center;
   background-color: #EEFBFB;
   color: black;
   /*Makes it so the border is placed on the inside*/
   box-sizing: border-box;
   z-index: 2
-}
-
-.grid>.result-item{
-  line-height: 50px;
-  text-align: center;
 }
 
 .active-piece:hover {
